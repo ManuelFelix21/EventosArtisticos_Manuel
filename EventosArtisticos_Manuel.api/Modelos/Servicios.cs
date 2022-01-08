@@ -34,7 +34,7 @@ namespace EventosArtisticos_Manuel.api.Modelos
         [ForeignKey("IdCategoria")]
         public virtual Categoria Categoria { get; set; }
 
-        public virtual List<Categoria> Categorias { get; set; }
+        
 
     }   
 }
