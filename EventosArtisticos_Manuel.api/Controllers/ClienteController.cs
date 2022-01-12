@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using EventosArtisticos_Manuel.api.Modelos;
+using EventosArtisticos_Manuel.api.DTOS;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventosArtisticos_Manuel.api.Controllers
 {
@@ -21,35 +23,66 @@ namespace EventosArtisticos_Manuel.api.Controllers
         [HttpGet]
         public IActionResult Listar()
         {
-            var lista = _bd.Cliente;
+            var lista = _bd.Cliente.ToList();
             return Ok(lista);
         }
-        [HttpPost]
-        public IActionResult Guardar(Cliente obj)
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult Buscar(int id)
         {
-            _bd.Cliente.Add(obj);
-            _bd.SaveChanges();
+            var obj = _bd.Cliente.Find(id);
+
+            if (obj == null)
+                return NotFound();
+
             return Ok(obj);
         }
-        [HttpPut]
-        public IActionResult Modificar(Cliente obj, int id)
+        [HttpPost]
+        public IActionResult Guardar(ClienteDTO obj)
         {
-
+            var nuevo = new Cliente(obj);
+            _bd.Cliente.Add(nuevo);
+            _bd.SaveChanges();
+            return Ok(nuevo);
+        }
+        [HttpPut]
+        [Route("{id}")]
+        public IActionResult Modificar(int id, Cliente obj)
+        {
             var modificar = _bd.Cliente.Find(id);
+            if (modificar == null)
+                return NoContent();
             modificar.Nombre = obj.Nombre;
             modificar.Telefono = obj.Telefono;
             modificar.Correo = obj.Correo;
             modificar.Direccion = obj.Direccion;
-            modificar.Activo = obj.Activo;
-
             _bd.Cliente.Update(modificar);
             _bd.SaveChanges();
             return Ok(modificar);
+        }
+        [HttpPut]
+        public IActionResult CambiarEtatus(int id)
+        {
+
+            var modificar = _bd.Cliente.Find(id);
+            if (modificar == null)
+                return NoContent();
+            modificar.Activo = !modificar.Activo;
+            _bd.Entry(modificar).State = EntityState.Modified;
+            _bd.SaveChanges();
+
+
+            return Ok(modificar);
+
+
         }
         [HttpDelete]
         public IActionResult Borrar(int id)
         {
             var borrar = _bd.Cliente.Find(id);
+
+            if (borrar == null)
+                return NoContent();
             _bd.Cliente.Remove(borrar);
             _bd.SaveChanges();
             return Ok(borrar);

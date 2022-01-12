@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EventosArtisticos_Manuel.api.DTOS;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,6 +10,21 @@ namespace EventosArtisticos_Manuel.api.Modelos
 {
     public class Cliente
     {
+
+        public Cliente()
+        {
+
+        }
+
+        public Cliente(ClienteDTO nuevo)
+        {
+            this.Nombre = nuevo.Nombre;
+            this.Telefono = nuevo.Telefono;
+            this.Correo = nuevo.Correo;
+            this.Direccion = nuevo.Direccion;
+            this.Activo = true;
+        }
+
         [Key]
         public int IdCliente { get; set; }
        
@@ -28,13 +44,11 @@ namespace EventosArtisticos_Manuel.api.Modelos
         [Required]
         public bool Activo { get; set; }
 
-        public int IdServicios { get; set; }
-
         [ForeignKey("IdServicios")]
-        public virtual Servicios Servicios { get; set; }
+        public Servicios Servicios { get; set; }
 
-        public virtual List<Servicios> Servicio { get; set; }
 
+        public virtual List<Venta> Venta { get; set; }
 
     }
 }

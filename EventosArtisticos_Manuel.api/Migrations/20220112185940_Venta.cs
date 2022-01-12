@@ -2,7 +2,7 @@
 
 namespace EventosArtisticos_Manuel.api.Migrations
 {
-    public partial class Proveedor : Migration
+    public partial class Venta : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

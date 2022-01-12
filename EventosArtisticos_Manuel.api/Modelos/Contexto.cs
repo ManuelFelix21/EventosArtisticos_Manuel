@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace EventosArtisticos_Manuel.api.Modelos
 {
     public class Contexto : DbContext
@@ -20,7 +21,7 @@ namespace EventosArtisticos_Manuel.api.Modelos
 
         public DbSet<Categoria> Categoria { get; set; }
 
-        public DbSet<Proveedor> Proveedor { get; set; }
+        public DbSet<Venta> Venta { get; set; }
        
 
      
